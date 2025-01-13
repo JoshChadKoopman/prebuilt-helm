@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helm-repo
+  labels:
+    app: helm-repo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helm-repo
+  template:
+    metadata:
+      labels:
+        app: helm-repo
+    spec:
+      containers:
+      - name: nginx
+        image: helm-repo:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: charts-volume
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: charts-volume
+        emptyDir: {}
